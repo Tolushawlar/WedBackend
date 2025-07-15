@@ -1,23 +1,17 @@
 require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
+const mongoose = require('mongoose');
 const connectDB = require('./utils/database');
 
-const app = express();
-const PORT = process.env.PORT || 5000;
-
-// Middleware
-app.use(cors());
-app.use(express.json());
-
-// Routes
-app.use('/api/coordinators', require('./routes/coordinators'));
-app.use('/api/bookings', require('./routes/bookings'));
-
-// Seed data
-const seedData = async () => {
+const seedCoordinators = async () => {
   try {
+    await connectDB();
+    
     const Coordinator = require('./models/Coordinator');
+    
+    // Clear existing data (optional - uncomment if you want to reset data)
+    // await Coordinator.deleteMany({});
+    // console.log('Existing coordinators deleted');
+    
     console.log('Checking for existing coordinators...');
     const count = await Coordinator.countDocuments();
     console.log(`Found ${count} existing coordinators`);
@@ -66,23 +60,13 @@ const seedData = async () => {
     } else {
       console.log('Seeding skipped - data already exists');
     }
+    
+    console.log('Seeding process complete');
+    process.exit(0);
   } catch (error) {
     console.error('Error during seeding:', error);
-  }
-};
-
-// Start server and connect to database
-const startServer = async () => {
-  try {
-    await connectDB();
-    await seedData();
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
-  } catch (error) {
-    console.error('Failed to start server:', error);
     process.exit(1);
   }
 };
 
-startServer();
+seedCoordinators();
