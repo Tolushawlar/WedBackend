@@ -2,6 +2,10 @@
 
 Simple REST API for wedding coordinator booking application.
 
+## Deployment
+
+The API is deployed on Render: https://wedbackend-w31f.onrender.com/api
+
 ## Setup
 
 1. Install dependencies:
@@ -71,6 +75,26 @@ Get a specific coordinator by ID.
 ```
 
 ### Bookings
+
+#### GET /api/bookings
+Get all booking requests.
+
+**Response:**
+```json
+[
+  {
+    "_id": "bookingId",
+    "coordinatorId": "coordinatorId",
+    "name": "John Smith",
+    "email": "john@example.com",
+    "weddingDate": "2024-12-31T00:00:00.000Z",
+    "guestNumber": 100,
+    "status": "pending",
+    "createdAt": "2023-10-15T12:00:00.000Z",
+    "updatedAt": "2023-10-15T12:00:00.000Z"
+  }
+]
+```
 
 #### POST /api/bookings
 Create a new booking request.
